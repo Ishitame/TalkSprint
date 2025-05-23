@@ -293,8 +293,13 @@ Please analyze and give ratings (1 to 10) for the following aspects:
 Provide a rating for each and a brief reason. Conclude with an overall summary and suggestion for improvement.
 `;
 
-  const result = await model.generateContent(prompt);
-  return result.response.text();
+ const result = await model.generateContent(prompt);
+  const text = result.response.text();
+
+  // Split feedback by newlines for frontend to render each as item
+  const feedbackArray = text.split(/\n{2,}/).filter(line => line.trim() !== '');
+
+  return feedbackArray;
 }
 
 

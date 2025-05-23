@@ -13,6 +13,7 @@ const JamSession = () => {
   const navigate = useNavigate();
   const timerRef = useRef(null);
   const recognitionRef = useRef(null);
+  const fullTranscriptRef = useRef('');
 
   useEffect(() => {
     const fetchTopic = async () => {
@@ -24,7 +25,7 @@ const JamSession = () => {
 
   useEffect(() => {
     if (recording && timer > 0) {
-      timerRef.current = setTimeout(() => setTimer(timer - 1), 1000);
+      timerRef.current = setTimeout(() => setTimer((prev) => prev - 1), 1000);
     } else if (timer === 0 && recording) {
       stopRecording();
     }
@@ -34,7 +35,7 @@ const JamSession = () => {
   useEffect(() => {
     if (feedbackData) {
       const countdown = setInterval(() => {
-        setRedirectCountdown(prev => {
+        setRedirectCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(countdown);
             navigate('/jam/feedback', {
@@ -65,16 +66,15 @@ const JamSession = () => {
     recognition.continuous = true;
     recognition.interimResults = false;
     recognition.lang = 'en-US';
-
-    let fullTranscript = '';
+    fullTranscriptRef.current = '';
 
     recognition.onresult = (event) => {
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
-          fullTranscript += event.results[i][0].transcript + ' ';
+          fullTranscriptRef.current += event.results[i][0].transcript + ' ';
         }
       }
-      setTranscript(fullTranscript.trim());
+      setTranscript(fullTranscriptRef.current.trim());
     };
 
     recognition.onerror = (event) => {
@@ -98,6 +98,11 @@ const JamSession = () => {
 
     setRecording(false);
     setRecorded(true);
+
+    if (!transcript.trim()) {
+      alert('No speech detected. Please try again.');
+      return;
+    }
 
     try {
       const res = await axios.post('https://talksprint.onrender.com/analyze', {
@@ -134,7 +139,7 @@ const JamSession = () => {
           </button>
 
           {recording && (
-            <div className="mt-6 flex flex-col items-center space-y-2">
+            <div className="mt-6 flex flex-col items-center space-y-4">
               <div className="relative w-24 h-24">
                 <svg className="animate-pulse w-full h-full text-yellow-500" viewBox="0 0 100 100">
                   <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="6" fill="none" />
@@ -143,12 +148,37 @@ const JamSession = () => {
                   {timer}s
                 </span>
               </div>
+
+              {/* Audio visualizer (simple waveform-like bars) */}
+              <div className="flex space-x-1">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-2 bg-yellow-500 rounded"
+                    style={{
+                      height: `${Math.random() * 20 + 10}px`,
+                      animation: 'bounce 1s infinite ease-in-out',
+                      animationDelay: `${i * 0.1}s`,
+                    }}
+                  />
+                ))}
+              </div>
+
               <p className="text-sm text-yellow-700">Speaking... Please talk about the topic</p>
             </div>
           )}
 
           <p className="mt-4 text-sm text-yellow-600">Only one attempt allowed. Max duration: 1 minute</p>
         </div>
+
+        {recorded && !feedbackData && (
+          <div className="mt-8 text-center">
+            <p className="text-yellow-700 font-semibold">Analyzing your speech...</p>
+            <div className="mt-2 flex justify-center">
+              <div className="w-6 h-6 border-4 border-yellow-400 border-dashed rounded-full animate-spin"></div>
+            </div>
+          </div>
+        )}
 
         {recorded && feedbackData && (
           <div className="mt-8 text-center">
