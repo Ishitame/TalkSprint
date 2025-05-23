@@ -23,7 +23,7 @@ const ReadingAssessment = () => {
   useEffect(() => {
     const fetchPrompts = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/generate-prompts');
+        const res = await axios.get('https://talksprint.onrender.com/generate-prompts');
         if (res.data?.prompts?.readingLines) {
           setPrompts(res.data.prompts.readingLines);
         } else {
@@ -91,7 +91,7 @@ const ReadingAssessment = () => {
       console.log('Transcript:', spokenText);
 
       try {
-        await axios.post('http://localhost:3000/api/analyze', {
+        await axios.post('https://talksprint.onrender.com/api/analyze', {
           original: prompts[currentIndex],
           spoken: spokenText,
           index: currentIndex,

@@ -8,7 +8,7 @@ const FeedBackPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/feedback')
+    axios.get('https://talksprint.onrender.com/api/feedback')
       .then(response => {
         setFeedbackList(response.data.feedbacks);
         setLoading(false);

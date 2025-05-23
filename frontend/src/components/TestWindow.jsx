@@ -21,7 +21,7 @@ const TestWindow = () => {
     const fetchQuiz = async () => {
       try {
         setLoading(true);
-        const res = await axios.get('http://localhost:3000/generate');
+        const res = await axios.get('https://talksprint.onrender.com/generate');
         setQuizData(res.data);
         setLoading(false);
       } catch (err) {

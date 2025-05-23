@@ -16,7 +16,7 @@ const JamSession = () => {
 
   useEffect(() => {
     const fetchTopic = async () => {
-      const res = await axios.get('http://localhost:3000/topic');
+      const res = await axios.get('https://talksprint.onrender.com/topic');
       setTopic(res.data.topic);
     };
     fetchTopic();
@@ -100,7 +100,7 @@ const JamSession = () => {
     setRecorded(true);
 
     try {
-      const res = await axios.post('http://localhost:3000/analyze', {
+      const res = await axios.post('https://talksprint.onrender.com/analyze', {
         transcript,
         topic,
       });
