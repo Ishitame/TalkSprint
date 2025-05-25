@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 const JamSession = () => {
   const [topic, setTopic] = useState('');
@@ -14,6 +15,7 @@ const JamSession = () => {
   const timerRef = useRef(null);
   const recognitionRef = useRef(null);
   const fullTranscriptRef = useRef('');
+  
 
   useEffect(() => {
     const fetchTopic = async () => {
@@ -118,6 +120,11 @@ const JamSession = () => {
     }
   };
 
+  
+  if (!topic) {
+    return <Loader />;
+  }
+
   return (
     <div className="min-h-screen bg-yellow-50 flex items-center justify-center px-4 py-10">
       <div className="bg-white border border-yellow-300 shadow-xl rounded-3xl p-8 max-w-2xl w-full">
@@ -131,7 +138,7 @@ const JamSession = () => {
           <button
             onClick={startRecording}
             disabled={recording || recorded}
-            className={`transition-all duration-300 px-8 py-3 text-lg rounded-full font-semibold 
+            className={`transition-all duration-300 px-8 py-3 text-lg rounded-full font-semibold cursor-pointer
               ${recording || recorded
                 ? 'bg-yellow-300 cursor-not-allowed text-white'
                 : 'bg-yellow-600 hover:bg-yellow-700 text-white'
@@ -173,7 +180,7 @@ const JamSession = () => {
             <p className="text-sm text-yellow-600">Redirecting in {redirectCountdown}s...</p>
 
             <button
-              className="mt-4 px-6 py-2 bg-yellow-700 text-white rounded-full hover:bg-yellow-800 transition"
+              className="mt-4 cursor-pointer px-6 py-2 bg-yellow-700 text-white rounded-full hover:bg-yellow-800 transition"
               onClick={() =>
                 navigate('/jam/feedback', {
                   state: {

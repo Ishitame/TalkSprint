@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+
 // Utility function to bold **text** and remove asterisks
 const formatTextWithBold = (text) => {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);

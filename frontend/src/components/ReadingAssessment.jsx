@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 const ReadingAssessment = () => {
   const [prompts, setPrompts] = useState([]);
@@ -184,7 +185,7 @@ const ReadingAssessment = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#fffdea] text-xl">
-        Loading prompts...
+        <Loader></Loader>
       </div>
     );
   }

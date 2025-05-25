@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 const FeedBackPage = () => {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -20,7 +21,7 @@ const FeedBackPage = () => {
   }, []);
 
   if (loading)
-    return <p className="text-center mt-10 text-xl text-yellow-800 font-semibold">Loading feedback...</p>;
+    return <Loader/>;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-yellow-50 to-yellow-100 py-10 px-6">

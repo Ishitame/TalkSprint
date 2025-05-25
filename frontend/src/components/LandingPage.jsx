@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 const LandingPage = () => {
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,7 @@ const LandingPage = () => {
               onClick={() => handleTestStart(path)}
               disabled={loading}
               className={`
+                cursor-pointer
                 px-10 py-5 rounded-full font-semibold text-lg
                 bg-gradient-to-r from-yellow-400 to-yellow-500
                 text-white shadow-xl 
@@ -50,7 +52,7 @@ const LandingPage = () => {
                 disabled:bg-yellow-300 disabled:cursor-not-allowed disabled:text-yellow-700
               `}
             >
-              {loading ? 'Loading...' : label}
+              {loading ? Loader : label}
             </button>
           ))}
         </div>
