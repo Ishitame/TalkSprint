@@ -12,7 +12,7 @@ const TestWindow = () => {
   const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(-1);
   const [selectedOptions, setSelectedOptions] = useState({});
-  const [timeLeft, setTimeLeft] = useState(20 * 60);
+  const [timeLeft, setTimeLeft] = useState(10 * 60);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [alertShown, setAlertShown] = useState(false);
 
