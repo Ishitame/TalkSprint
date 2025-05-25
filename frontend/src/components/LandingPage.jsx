@@ -49,7 +49,7 @@ const LandingPage = () => {
                 hover:from-yellow-500 hover:to-yellow-600
                 active:scale-95 active:shadow-yellow-600/70
                 transition duration-300
-                disabled:bg-yellow-300 disabled:cursor-not-allowed disabled:text-yellow-700
+                disabled:bg-yellow-300 disabled:cursor-not-allowed disabled:text-yellow-600
               `}
             >
               {loading ? Loader : label}
