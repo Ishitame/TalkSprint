@@ -239,6 +239,7 @@ app.get('/api/feedback', (req, res) => {
 const generateTopic = async () => {
   const prompt = `
 Generate a random JAM (Just A Minute) session topic based on everyday life. The topic should be thought-provoking, simple to understand, and suitable for college students. Use common, relatable themes such as technology, habits, relationships, emotions, modern society, campus life, or personal experiences.
+generate topics like experience in life based on memories based on pros and cons of a situation
 
 Constraints:
 - Keep the topic short (5 to 10 words).

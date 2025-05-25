@@ -74,7 +74,6 @@ const JamSession = () => {
           fullTranscriptRef.current += event.results[i][0].transcript + ' ';
         }
       }
-      setTranscript(fullTranscriptRef.current.trim());
     };
 
     recognition.onerror = (event) => {
@@ -99,14 +98,17 @@ const JamSession = () => {
     setRecording(false);
     setRecorded(true);
 
-    if (!transcript.trim()) {
+    const finalTranscript = fullTranscriptRef.current.trim();
+    setTranscript(finalTranscript);
+
+    if (!finalTranscript) {
       alert('No speech detected. Please try again.');
       return;
     }
 
     try {
       const res = await axios.post('https://talksprint.onrender.com/analyze', {
-        transcript,
+        transcript: finalTranscript,
         topic,
       });
       setFeedbackData(res.data);
@@ -147,21 +149,6 @@ const JamSession = () => {
                 <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl font-mono text-yellow-800">
                   {timer}s
                 </span>
-              </div>
-
-              {/* Audio visualizer (simple waveform-like bars) */}
-              <div className="flex space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-2 bg-yellow-500 rounded"
-                    style={{
-                      height: `${Math.random() * 20 + 10}px`,
-                      animation: 'bounce 1s infinite ease-in-out',
-                      animationDelay: `${i * 0.1}s`,
-                    }}
-                  />
-                ))}
               </div>
 
               <p className="text-sm text-yellow-700">Speaking... Please talk about the topic</p>
